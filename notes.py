@@ -109,9 +109,9 @@ def del_tag():
     if list_notes.selectedItems():
         key = list_notes.selectedItems()[0].text() 
         tag = list_tags.selectedItems()[0].text()
-        notes[key]['теги'].remove(tag)
+        notes[key]['tags'].remove(tag)
         list_tags.clear()
-        list_tags.addItems(notes[key]['теги'])
+        list_tags.addItems(notes[key]['tags'])
         with open('notes_data.json', 'w') as file:
                 json.dump(notes, file, sort_keys=True)
 
@@ -120,7 +120,7 @@ def search_tag():
     if but_tag_sher.text() == 'Поиск по тегу' and tag:
         notes_filtered = {}
         for note in notes:
-            if tag in notes[note]['теги']:
+            if tag in notes[note]['tags']:
                 notes_filtered[note] = notes[note]
         but_tag_sher.setText('Сбросить поиск')
         list_notes.create()
@@ -142,7 +142,7 @@ but_not_save.clicked.connect(save_note)
 but_not_create.clicked.connect(add_note)
 list_notes.itemClicked.connect(show_note)
 
-with open ('notes_data.json', 'r') as file:
+with open ('notes_data.json', 'r', encoding='utf-8') as file:
     notes = json.load(file)
     
 list_notes.addItems(notes)
