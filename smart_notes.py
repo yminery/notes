@@ -111,6 +111,27 @@ but_not_save.clicked.connect(save_note)
 but_not_create.clicked.connect(add_note)
 list_notes.itemClicked.connect(show_note)
 
+def add_note():
+    #
+if ok and note_name != "":
+    note = list()
+    note = [note_name, '', []]
+    notes.append(note)
+    list_notes.addItem(note[0])
+    filename = str(len(notes)-1)+".txt"
+    wirh open(filename,"w") as file:
+    file.write(note[0]+'\n')
+
+
+while True:
+    filename = str(name)+ '.txt'
+    try:
+        with open(filename,'r') as file:
+            #
+            #
+    except IOError:
+        break
+
 with open ('notes_data.json', 'r') as file:
     notes = json.load(file)
     
