@@ -2,7 +2,7 @@ import os
 from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QFileDialog, QPushButton, QListWidget, QHBoxLayout, QVBoxLayout
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
-from PIL import Image
+from PIL import Image, ImageFilter
 
 
 app = QApplication([])
@@ -87,6 +87,38 @@ class ImageProcessor:
         image_path = os.path.join(self.dir, self.save_dir, self.filename)
         self.showImage(image_path)
 
+    def do_flip(self):
+        self.image = self.image.transpose(Image.FLIP_LEFT_RIGHT)
+        self.saveImage()
+        image_path = os.path.join(
+            workdir, self.save_dir, self.filename
+        )
+        self.showImage(image_path)
+
+    def do_left(self):
+        self.image = self.image.transpose(Image.ROTATE_90)
+        self.saveImage()
+        image_path = os.path.join(
+            workdir, self.save_dir, self.filename
+        )
+        self.showImage(image_path)
+
+    def do_right(self):
+        self.image = self.image.transpose(Image.ROTATE_270)
+        self.saveImage()
+        image_path = os.path.join(
+            workdir, self.save_dir, self.filename
+        )
+        self.showImage(image_path)
+
+    def do_sharp(self):
+        self.image = self.image.filter(ImageFilter.SHARPEN)
+        self.saveImage()
+        image_path = os.path.join(
+            workdir, self.save_dir, self.filename
+        )
+        self.showImage(image_path)
+
     def showImage(self, path):
         lb_image.hide()
         pixmapimage = QPixmap(path)
@@ -105,6 +137,10 @@ def showChosenImage():
         workimage.showImage(image_path)
 
 btn_bw.clicked.connect(workimage.do_bw)
+btn_flip.clicked.connect(workimage.do_flip)
+btn_left.clicked.connect(workimage.do_left)
+btn_right.clicked.connect(workimage.do_right)
+btn_sharp.clicked.connect(workimage.do_sharp)
 lw_files.currentRowChanged.connect(showChosenImage)
 
 win.setLayout(main_layout)
