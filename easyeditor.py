@@ -17,6 +17,8 @@ btn_right = QPushButton('Право')
 btn_bw = QPushButton('Ч/Б')
 btn_sharp = QPushButton('Резкость')
 btn_flip = QPushButton('Зеркало')
+btn_blur = QPushButton('Размыть')
+btn_flip2 = QPushButton('Зеркало2')
 lw_files = QListWidget()
 
 row = QHBoxLayout()
@@ -31,6 +33,8 @@ row.addWidget(btn_right)
 row.addWidget(btn_flip)
 row.addWidget(btn_sharp)
 row.addWidget(btn_bw)
+row.addWidget(btn_blur)
+row.addWidget(btn_flip2)
 
 col_2.addWidget(lb_image)
 col_2.addLayout(row)
@@ -119,6 +123,22 @@ class ImageProcessor:
         )
         self.showImage(image_path)
 
+    def do_blur(self):
+        self.image = self.image.filter(ImageFilter.BLUR)
+        self.saveImage()
+        image_path = os.path.join(
+            workdir, self.save_dir, self.filename
+        )
+        self.showImage(image_path)
+
+    def do_flip2(self):
+        self.image = self.image.transpose(Image.FLIP_TOP_BOTTOM)
+        self.saveImage()
+        image_path = os.path.join(
+            workdir, self.save_dir, self.filename
+        )
+        self.showImage(image_path)
+
     def showImage(self, path):
         lb_image.hide()
         pixmapimage = QPixmap(path)
@@ -141,6 +161,8 @@ btn_flip.clicked.connect(workimage.do_flip)
 btn_left.clicked.connect(workimage.do_left)
 btn_right.clicked.connect(workimage.do_right)
 btn_sharp.clicked.connect(workimage.do_sharp)
+btn_blur.clicked.connect(workimage.do_blur)
+btn_flip2.clicked.connect(workimage.do_flip2)
 lw_files.currentRowChanged.connect(showChosenImage)
 
 win.setLayout(main_layout)
